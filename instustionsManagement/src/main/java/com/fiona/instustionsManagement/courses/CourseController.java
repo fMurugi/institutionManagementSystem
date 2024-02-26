@@ -32,7 +32,7 @@ public class CourseController {
 
     }
 
-    @PutMapping("/edit_course")
+    @PutMapping("/edit_course/{institutionId}/{courseId}")
     public ResponseEntity<ApiResponse> editCourse(
             @PathVariable UUID institutionId,
             @PathVariable UUID courseId,
