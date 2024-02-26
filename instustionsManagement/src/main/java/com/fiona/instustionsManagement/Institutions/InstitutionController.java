@@ -43,8 +43,8 @@ public class InstitutionController {
 
         return buildResponseEntity(HttpStatus.OK,institutionsModels,request.getRequestURI());
     }
-    @PutMapping("/update_institution")
-    public  ResponseEntity<ApiResponse> updateInstituions(
+    @PutMapping("/update_institution/{institutionId}")
+    public  ResponseEntity<ApiResponse> updateInstitutions(
             @PathVariable UUID institutionId,
             @RequestParam String newName,
             HttpServletRequest request
