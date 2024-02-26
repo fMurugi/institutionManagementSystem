@@ -17,9 +17,15 @@ public interface StudentsRepository extends JpaRepository<StudentsModel, UUID> {
     @Query("SELECT s FROM StudentsModel s JOIN s.coursesModel c JOIN c.institutionsModel i WHERE i.institutionName = :institutionName")
     Page<StudentsModel> findByInstitutionName(String institutionName, Pageable pageable);
 
+    Page<StudentsModel> findByCoursesModel_InstitutionsModel_InstitutionNameAndCoursesModel_CourseName(String institutionName, String courseName, Pageable pageable);
+
+    Page<StudentsModel> findByCoursesModel_InstitutionsModel_InstitutionName(String institutionName, Pageable pageable);
+
     Page<StudentsModel> findByCoursesModel_CourseName(String courseName, Pageable pageable);
 
     List<StudentsModel> findByCoursesModel(CoursesModel coursesModel);
+
+    Page<StudentsModel> findByCoursesModel_CourseNameAndCoursesModel_InstitutionsModel_InstitutionName(String courseName, String institutionName, Pageable pageable);
 }
 
 

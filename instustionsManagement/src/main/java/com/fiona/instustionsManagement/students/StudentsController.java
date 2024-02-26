@@ -11,10 +11,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/students")
 public class StudentsController {
-
     private final StudentsService studentsService;
-
-
 
     @PostMapping
     public ResponseEntity<String> addStudent(@RequestBody StudentDTO studentDTO,
@@ -29,7 +26,6 @@ public class StudentsController {
         String message = studentsService.deleteStudent(studentId);
         return ResponseEntity.ok(message);
     }
-
 
     @PutMapping("/{studentId}")
     public ResponseEntity<String> editStudentName(@PathVariable UUID studentId,

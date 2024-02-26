@@ -5,10 +5,13 @@ import com.fiona.instustionsManagement.Exceptions.DuplicateInstitutionException;
 import com.fiona.instustionsManagement.Exceptions.ResourceNotFoundException;
 import com.fiona.instustionsManagement.Utility.ApiResponse;
 import com.fiona.instustionsManagement.courses.CoursesModel;
+import com.fiona.instustionsManagement.students.StudentsModel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.PathParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -82,6 +85,17 @@ public class InstitutionController {
         List<InstitutionsModel> institutionsModels = institutionsService.searchByKeyword(keyword);
 
         return buildResponseEntity(HttpStatus.OK,institutionsModels,request.getRequestURI());
+    }
+    @GetMapping("/list_students_by_Institution_and_Course")
+    public ResponseEntity<ApiResponse> listStudentsByInstitutionAndCourse(
+            @RequestParam String InstitutionName,
+            @RequestParam String CourseName,
+//            @RequestParam int Page,
+            HttpServletRequest request
+    ){
+        List<StudentsModel> studentsModels = institutionsService.getStudentsInstitution(InstitutionName,CourseName);
+
+        return buildResponseEntity(HttpStatus.OK,studentsModels,request.getRequestURI());
     }
 
 

@@ -4,6 +4,8 @@ import com.fiona.instustionsManagement.Exceptions.CannotDeleteInstitutionExcepti
 import com.fiona.instustionsManagement.Exceptions.DuplicateInstitutionException;
 import com.fiona.instustionsManagement.Exceptions.ResourceNotFoundException;
 import com.fiona.instustionsManagement.courses.CoursesModel;
+import com.fiona.instustionsManagement.students.StudentsModel;
+import com.fiona.instustionsManagement.students.StudentsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class InstitutionsService {
     private final InstitutionsRepository institutionsRepository;
+    private final StudentsRepository studentsRepository;
 
     public void createInstitution(InstitutionsDTO institutionsDTO){
         String institutionName = institutionsDTO.getInstitutionsName();
@@ -131,6 +134,30 @@ public class InstitutionsService {
 
     public List<InstitutionsModel> searchByKeyword(String keyword){
        return institutionsRepository.findByInstitutionNameContaining(keyword);
+
+    }
+
+    public List<StudentsModel> getStudentsInstitution(String institutionName,String courseName){
+        Pageable pageable = PageRequest.of(0,10);
+        InstitutionsModel institutionsModel = institutionsRepository.findByInstitutionName(institutionName);
+        List<CoursesModel> coursesModelList = institutionsModel.getCoursesModelList();
+        List<StudentsModel> studentsModels = null;
+        CoursesModel foundCourse = null;
+        if (coursesModelList !=null){
+            for (CoursesModel course: coursesModelList){
+                if(course.getCourseName().equals(courseName)){
+                    foundCourse = course;
+                    break;
+                }
+
+
+            }
+        }
+        assert foundCourse != null;
+        if (!foundCourse.getStudentsModel().isEmpty()) {
+            studentsModels = foundCourse.getStudentsModel();
+        }
+        return studentsModels;
 
     }
 

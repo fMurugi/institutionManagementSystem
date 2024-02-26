@@ -95,9 +95,9 @@ public class StudentsService {
     public Page<StudentsModel> getAllStudentsByInstitutionAndCourse(String institutionName, String courseName, int page) {
         Pageable pageable = PageRequest.of(page, 10);
         if (institutionName != null && courseName != null) {
-            return studentsRepository.findByInstitutionNameAndCourseName(institutionName, courseName, pageable);
+            return studentsRepository.findByCoursesModel_InstitutionsModel_InstitutionNameAndCoursesModel_CourseName(institutionName, courseName, pageable);
         } else if (institutionName != null) {
-            return studentsRepository.findByInstitutionName(institutionName, pageable);
+            return studentsRepository.findByCoursesModel_InstitutionsModel_InstitutionName(institutionName, pageable);
         } else if (courseName != null) {
 
             return studentsRepository.findByCoursesModel_CourseName(courseName, pageable);
