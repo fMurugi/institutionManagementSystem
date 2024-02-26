@@ -99,18 +99,34 @@ public class InstitutionsService {
     }
 
 
+//    public List<CoursesModel> getAllCoursesByInstitution(String institutionName, String sortDirection) {
+//        InstitutionsModel institutionsModel = institutionsRepository.findByInstitutionName(institutionName);
+//        List<CoursesModel> coursesModelList = institutionsModel.getCoursesModelList();
+//
+//        Sort.Direction direction = Sort.Direction.ASC;
+//        if ("desc".equalsIgnoreCase(sortDirection)) {
+//           Collections.sort(coursesModelList,Comparator.comparing(CoursesModel::getCourseName).reversed());
+//        }else{
+//            Collections.sort(coursesModelList,Comparator.comparing(CoursesModel::getCourseName));
+//        }
+//
+//        return coursesModelList;
+//    }
+
     public List<CoursesModel> getAllCoursesByInstitution(String institutionName, String sortDirection) {
         InstitutionsModel institutionsModel = institutionsRepository.findByInstitutionName(institutionName);
         List<CoursesModel> coursesModelList = institutionsModel.getCoursesModelList();
 
-        Sort.Direction direction = Sort.Direction.ASC;
+        Comparator<CoursesModel> comparator = Comparator.nullsFirst(Comparator.comparing(CoursesModel::getCourseName));
+
         if ("desc".equalsIgnoreCase(sortDirection)) {
-           Collections.sort(coursesModelList,Comparator.comparing(CoursesModel::getCourseName).reversed());
-        }else{
-            Collections.sort(coursesModelList,Comparator.comparing(CoursesModel::getCourseName));
+            comparator = comparator.reversed();
         }
+
+        coursesModelList.sort(comparator);
 
         return coursesModelList;
     }
+
 
 }
