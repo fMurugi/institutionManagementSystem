@@ -30,4 +30,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String > handleInvalidCourseChangeException(InvalidCourseChangeException ex){
         return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(ex.getMessage());
     }
+    @ExceptionHandler(IllegalCourseAndInstitutionException.class)
+    public ResponseEntity<String> handIllegalCourseAndInstitutionException(IllegalCourseAndInstitutionException ex){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
 }
