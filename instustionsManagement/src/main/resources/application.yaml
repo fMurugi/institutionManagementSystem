@@ -3,12 +3,12 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/institutionsDb
-    username: root
-    password: 0418
+    url: ${dbUrl}
+    username: ${dbUsername}
+    password: ${dbPassword}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-#    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     hibernate:
       ddl-auto: update
