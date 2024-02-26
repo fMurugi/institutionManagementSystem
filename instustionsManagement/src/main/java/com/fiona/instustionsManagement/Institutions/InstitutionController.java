@@ -7,6 +7,7 @@ import com.fiona.instustionsManagement.Utility.ApiResponse;
 import com.fiona.instustionsManagement.courses.CoursesModel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,6 +75,13 @@ public class InstitutionController {
         List<CoursesModel> coursesModelList = institutionsService.getAllCoursesByInstitution(institutionName,sortDirection);
 
         return buildResponseEntity(HttpStatus.OK,coursesModelList,request.getRequestURI());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse> search(@RequestParam String keyword,HttpServletRequest request){
+        List<InstitutionsModel> institutionsModels = institutionsService.searchByKeyword(keyword);
+
+        return buildResponseEntity(HttpStatus.OK,institutionsModels,request.getRequestURI());
     }
 
 

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface InstitutionsRepository extends JpaRepository<InstitutionsModel, UUID> {
@@ -11,5 +12,7 @@ public interface InstitutionsRepository extends JpaRepository<InstitutionsModel,
     Page<InstitutionsModel> findByInstitutionNameContainingIgnoreCase(String name, Pageable pageable);
 
     InstitutionsModel findByInstitutionName(String institutionName);
+
+    List<InstitutionsModel> findByInstitutionNameContaining(String keyword);
 
 }

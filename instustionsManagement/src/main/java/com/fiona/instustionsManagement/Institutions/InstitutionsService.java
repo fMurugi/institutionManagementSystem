@@ -129,4 +129,9 @@ public class InstitutionsService {
     }
 
 
+    public List<InstitutionsModel> searchByKeyword(String keyword){
+       return institutionsRepository.findByInstitutionNameContaining(keyword);
+
+    }
+
 }
