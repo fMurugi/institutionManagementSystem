@@ -1,5 +1,6 @@
 package com.fiona.instustionsManagement.students;
 
+import com.fiona.instustionsManagement.Exceptions.IllegalCourseAndInstitutionException;
 import com.fiona.instustionsManagement.Exceptions.InvalidCourseChangeException;
 import com.fiona.instustionsManagement.Exceptions.ResourceNotFoundException;
 import com.fiona.instustionsManagement.Institutions.InstitutionsModel;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,9 +24,16 @@ public class StudentsService {
     private final InstitutionsRepository institutionsRepository;
 
 
-    public String addStudent(StudentDTO studentDTO){
+    public String addStudent(StudentDTO studentDTO,UUID institutionId,UUID courseId){
+        if (!checkIfCourseBelongsToInstitution(institutionId, courseId)) {
+            throw new IllegalCourseAndInstitutionException("The course does not belong to the institution.");
+        }
+        CoursesModel coursesModel = coursesRepository.findById(courseId)
+                .orElseThrow(()-> new ResourceNotFoundException("No course with that Id"));
+
         StudentsModel studentsModel = StudentsModel.builder()
                 .fullName(studentDTO.getFullName())
+                .coursesModel(coursesModel)
                 .build();
         studentsRepository.save(studentsModel);
         return "student added successfully";
@@ -41,6 +50,7 @@ public class StudentsService {
                 .orElseThrow(()->new ResourceNotFoundException("No student found with id: " + studentId));
 
         studentsModel.setFullName(studentDTO.getFullName());
+        studentsRepository.save(studentsModel);
 
         return "student's name edited successfully";
     }
@@ -95,5 +105,23 @@ public class StudentsService {
             return studentsRepository.findAll(pageable);
         }
     }
+
+    public Boolean checkIfCourseBelongsToInstitution(UUID institutionId,UUID courseId){
+        Optional<InstitutionsModel> institutionOptional = institutionsRepository.findById(institutionId);
+        if (institutionOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Institution not found with ID: " + institutionId);
+        }
+
+        Optional<CoursesModel> courseOptional = coursesRepository.findById(courseId);
+        if (courseOptional.isPresent()) {
+            CoursesModel course = courseOptional.get();
+            InstitutionsModel institution = institutionOptional.get();
+            return course.getInstitutionsModel().getInstitutionId().equals(institutionId);
+        } else {
+            throw new ResourceNotFoundException("Course not found with ID: " + courseId);
+        }
+
+    }
+
 
 }
