@@ -79,8 +79,11 @@ public class CourseService {
         return coursesModel;
     }
 
-    //delete course
+    public  List<CoursesModel> searchCourse(String institutionName,String keyword){
+        List<CoursesModel> coursesModel = coursesRepository.findByCourseNameContainingAndInstitutionsModelInstitutionName(keyword, institutionName);
+        return coursesModel;
 
+    }
 
 
 }

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 import static com.fiona.instustionsManagement.Utility.ApiResponseBuilder.buildResponseEntity;
@@ -44,7 +45,7 @@ public class CourseController {
 
     }
 
-    //delete
+
 
     @DeleteMapping("/{courseId}")
     public ResponseEntity<ApiResponse> deleteCourse(
@@ -53,6 +54,16 @@ public class CourseController {
     ){
         String message = courseService.deleteCourse(courseId);
         return  buildResponseEntity(HttpStatus.ACCEPTED,message,request.getRequestURI());
+    }
+
+    @GetMapping("/search")
+    public  ResponseEntity<ApiResponse> searchCourse(
+            @RequestParam String InstitutionName,
+            @RequestParam String Keyword,
+            HttpServletRequest request
+    ){
+        List<CoursesModel> coursesModelList = courseService.searchCourse(InstitutionName,Keyword);
+        return buildResponseEntity(HttpStatus.OK,coursesModelList,request.getRequestURI());
     }
 
 
