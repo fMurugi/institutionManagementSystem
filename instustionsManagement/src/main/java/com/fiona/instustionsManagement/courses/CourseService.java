@@ -55,6 +55,7 @@ public class CourseService {
             throw new DuplicateCourseException("A course with the same name already exists in the institution");
         }
         coursesModel.setCourseName(newCourseName);
+        coursesRepository.save(coursesModel);
         return "Course successfully edited";
     }
 
