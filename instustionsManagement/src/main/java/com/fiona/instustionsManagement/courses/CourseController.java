@@ -46,5 +46,14 @@ public class CourseController {
 
     //delete
 
+    @DeleteMapping("/{courseId}")
+    public ResponseEntity<ApiResponse> deleteCourse(
+            @PathVariable UUID courseId,
+            HttpServletRequest request
+    ){
+        String message = courseService.deleteCourse(courseId);
+        return  buildResponseEntity(HttpStatus.ACCEPTED,message,request.getRequestURI());
+    }
+
 
 }
