@@ -19,11 +19,11 @@ spring:
     url: jdbc:mysql://localhost:3306/mydatabase
     username: username
     password: password
-
+```
 ## RUN
 ```
-mvn clean package -DskipTests
-java -jar target/instustionsManagement-0.0.1-SNAPSHOT.jar 
+  mvn clean package -DskipTests
+  java -jar target/instustionsManagement-0.0.1-SNAPSHOT.jar 
 
-
+```
 
