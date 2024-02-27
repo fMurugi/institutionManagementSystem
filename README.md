@@ -27,3 +27,7 @@ spring:
 
 ```
 
+## RUN ON INTELLIJ
+1. Configure the environment variables on the edit configurations
+2. BUild and run
+   
